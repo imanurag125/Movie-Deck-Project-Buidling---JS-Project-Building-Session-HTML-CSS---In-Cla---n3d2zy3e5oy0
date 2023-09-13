@@ -1,1 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <header class="header">
+      <!-- Navbar -->
+      <nav class="nav-bar">
+        <a href="/index.html">Movie Deck</a>
+      </nav>
 
+      <!-- Searchbar -->
+      <div class="searchbar-container">
+        <input
+          id="input-movie"
+          placeholder="Search by name..."
+          autocomplete="off"
+          type="text"
+        />
+
+        <button id="movie-searchBtn" class="btn dark-btn">Search</button>
+      </div>
+
+      <!-- Sorting -->
+      <div class="sorting">
+        <button id="sort-by-date" class="btn active-btn">
+          Sort by date (oldest to latest)
+        </button>
+
+        <button id="sort-by-rating" class="btn dark-btn">
+          Sort by rating (least to most)
+        </button>
+      </div>
+    </header>
+
+    <!-- Active and favorate container -->
+    <section class="container">
+      <div class="tab-container">
+        <button id="all-btn" class="btn active-btn">All</button>
+        <button id="fav-btn" class="btn gray-btn">Favorites</button>
+      </div>
+    </section>
+
+    <!-- Movie Container -->
+    <section class="container">
+      <section class="movie-container">
+        <div class="loader"></div>
+      </section>
+    </section>
+
+    <!-- Pagination -->
+    <div class="container">
+      <section class="pagination">
+        <button id="prev-btn" class="btn gray-btn" disabled>Previous</button>
+        <button id="curr-btn" class="btn gray-btn">Current Page: 1</button>
+        <button id="next-btn" class="btn gray-btn">Next</button>
+      </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <p>&copy; 2023 Movie Deck</p>
+      </div>
+    </footer>
+    <script src="App.js"></script>
+  </body>
+</html>
