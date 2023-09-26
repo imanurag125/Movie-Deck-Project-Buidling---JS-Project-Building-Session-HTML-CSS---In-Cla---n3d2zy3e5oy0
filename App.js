@@ -12,6 +12,7 @@ const allBtn = document.getElementById("all-btn");
 const favBtn = document.getElementById("fav-btn");
 const movieSearchBtn = document.getElementById("movie-searchBtn");
 const inputByUser = document.getElementById("input-movie");
+const movieContainer = document.querySelector(".movie-container");
 
 sortRealeaeBtn.addEventListener("click", handleSortReleaseBTN);
 sortRatingBtn.addEventListener("click", handleSortRatingBTN);
@@ -19,10 +20,12 @@ prevBtn.addEventListener("click", () => handleNextPrevBtn(currPage - 1));
 nextBtn.addEventListener("click", () => handleNextPrevBtn(currPage + 1));
 favBtn.addEventListener("click", handleFavourateBtn);
 allBtn.addEventListener("click", handleAllBtn);
-movieSearchBtn.addEventListener("click", () => handleSearch(inputByUser.value));
+movieSearchBtn.addEventListener("click", (e) =>
+  handleSearch(inputByUser.value)
+);
 
 async function callAPI() {
-  container.innerHTML = `<div class="loader"></div>`;
+  loadShimmer();
   const res = await fetch(
     `https://api.themoviedb.org/3/movie/top_rated?api_key=f531333d637d0c44abc85b3e74db2186&language=en-US&page=${currPage}`
   );
@@ -32,7 +35,6 @@ async function callAPI() {
 }
 
 function displatData(movies) {
-  const movieContainer = document.querySelector(".movie-container");
   movieContainer.innerHTML = "";
   movies.forEach((movie) => {
     let isFav = favouriteMovies.some((mov) => mov.id == movie.id);
@@ -86,11 +88,13 @@ function addToLocalStorage() {
 }
 
 function sortOnRating() {
-  allMovies.sort((a, b) => a.vote_average - b.vote_average);
+  (favBtn.classList.contains("active-btn") ? favouriteMovies : allMovies).sort(
+    (a, b) => a.vote_average - b.vote_average
+  );
 }
 
 function sortOnDate() {
-  allMovies.sort(
+  (favBtn.classList.contains("active-btn") ? favouriteMovies : allMovies).sort(
     (a, b) =>
       new Date(a.release_date).getTime() - new Date(b.release_date).getTime()
   );
@@ -98,12 +102,14 @@ function sortOnDate() {
 
 function handleSortRatingBTN() {
   sortOnRating();
-  displatData(allMovies);
+  if (favBtn.classList.contains("active-btn")) displatData(favouriteMovies);
+  else displatData(allMovies);
 }
 
 function handleSortReleaseBTN() {
   sortOnDate();
-  displatData(allMovies);
+  if (favBtn.classList.contains("active-btn")) displatData(favouriteMovies);
+  else displatData(allMovies);
 }
 
 function handleNextPrevBtn(num) {
@@ -132,10 +138,21 @@ function handleAllBtn(e) {
 }
 
 function handleSearch(inp) {
-  let filteredArr = allMovies.filter((movie) =>
-    movie.title.toLowerCase().includes(inp.toLowerCase())
-  );
+  console.log();
+  let filteredArr = (
+    favBtn.classList.contains("active-btn") ? favouriteMovies : allMovies
+  ).filter((movie) => movie.title.toLowerCase().includes(inp.toLowerCase()));
   displatData(filteredArr);
+}
+
+function loadShimmer() {
+  const html = `<div class="movie-card">
+  <div class="img loading"></div>
+  <p class="loading"></p>
+  <p class="loading"></p>
+  </div>`;
+
+  for (let i = 0; i <= 10; i++) container.innerHTML += html;
 }
 
 callAPI();
